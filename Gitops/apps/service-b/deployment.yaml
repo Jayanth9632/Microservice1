@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+name: service-b
+labels: { app: service-b }
+namespace: apps
+spec:
+replicas: 2
+selector:
+matchLabels: { app: service-b }
+template:
+metadata:
+labels: { app: service-b }
+spec:
+imagePullSecrets:
+- name: dockerhub-regcred
+containers:
+- name: service-b
+image: jayanth9632932097/service-b:latest
+ports:
+- containerPort: 5000
+readinessProbe:
+httpGet: { path: /health, port: 5000 }
+initialDelaySeconds: 3
+livenessProbe:
+httpGet: { path: /health, port: 5000 }
+initialDelaySeconds: 10

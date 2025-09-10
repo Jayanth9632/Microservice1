@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+name: service-c
+labels: { app: service-c }
+namespace: apps
+spec:
+replicas: 2
+selector:
+matchLabels: { app: service-c }
+template:
+metadata:
+labels: { app: service-c }
+spec:
+imagePullSecrets:
+- name: dockerhub-regcred
+containers:
+- name: service-c
+image: jayanth9632932097/service-c:latest
+ports:
+- containerPort: 8080
+readinessProbe:
+httpGet: { path: /health, port: 8080 }
+initialDelaySeconds: 3
+livenessProbe:
+httpGet: { path: /health, port: 8080 }
+initialDelaySeconds: 10

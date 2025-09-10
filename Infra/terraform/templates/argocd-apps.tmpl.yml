@@ -1,0 +1,61 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+name: argocd
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+name: service-a
+namespace: argocd
+spec:
+project: default
+source:
+repoURL: ${repo_url}
+targetRevision: main
+path: gitops/apps/service-a
+destination:
+server: https://kubernetes.default.svc
+namespace: apps
+syncPolicy:
+automated:
+prune: true
+selfHeal: true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+name: service-b
+namespace: argocd
+spec:
+project: default
+source:
+repoURL: ${repo_url}
+targetRevision: main
+path: gitops/apps/service-b
+destination:
+server: https://kubernetes.default.svc
+namespace: apps
+syncPolicy:
+automated:
+prune: true
+selfHeal: true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+name: service-c
+namespace: argocd
+spec:
+project: default
+source:
+repoURL: ${repo_url}
+targetRevision: main
+path: gitops/apps/service-c
+destination:
+server: https://kubernetes.default.svc
+namespace: apps
+syncPolicy:
+automated:
+prune: true
+selfHeal: true
